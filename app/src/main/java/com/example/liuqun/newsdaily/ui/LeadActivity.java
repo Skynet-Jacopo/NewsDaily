@@ -6,17 +6,19 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.liuqun.newsdaily.R;
+import com.example.liuqun.newsdaily.ui.base.MyBaseActivity;
 
 import java.util.ArrayList;
 
-public class LeadActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class LeadActivity extends MyBaseActivity implements ViewPager
+        .OnPageChangeListener {
 
     private ViewPager       pager;
     private ArrayList<View> list;
@@ -68,7 +70,7 @@ public class LeadActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private void initView() {
-        list = new ArrayList<>();
+        list = new ArrayList<View>();
 
         pager = (ViewPager) findViewById(R.id.vp_guide);
 
@@ -80,7 +82,7 @@ public class LeadActivity extends AppCompatActivity implements ViewPager.OnPageC
             list.add(iv);
         }
         pager.setAdapter(new MyPagerAdapter(list));
-        pager.addOnPageChangeListener(this);
+        pager.setOnPageChangeListener(this);
 
         //为ViewPager跳转设置动画
         pager.setPageTransformer(true,new ZoomOutPageTransformer());
@@ -160,7 +162,9 @@ public class LeadActivity extends AppCompatActivity implements ViewPager.OnPageC
     //界面切换后调用
     @Override
     public void onPageSelected(int position) {
+        //实现4个点和图片的联动
         setPoint(position);
+
         if (position >= 3) {
             Intent intent = new Intent(LeadActivity.this, SplashActivity.class);
             startActivity(intent);
